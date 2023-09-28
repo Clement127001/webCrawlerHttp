@@ -8,11 +8,13 @@ const crawlPage = async (currentUrl) => {
     console.log("started crawling from the crawl js function");
     const response = await fetch(currentUrl);
 
+    //for checking the status of the response
     if (response.status > 399) {
       console.log(`Error occured got ${response.status} `);
       return;
     }
 
+    //for make sure we are getting the html/text page
     const contentType = response.headers.get("content-type");
 
     if (!contentType.includes("text/html")) {
