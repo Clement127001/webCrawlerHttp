@@ -1,5 +1,33 @@
 const { JSDOM } = require("jsdom");
 
+//function to crawl the url and get the html element
+
+const crawlPage = async (currentUrl) => {
+  try {
+    const url = new URL(currentUrl);
+    console.log("started crawling from the crawl js function");
+    const response = await fetch(currentUrl);
+
+    if (response.status > 399) {
+      console.log(`Error occured got ${response.status} `);
+      return;
+    }
+
+    const contentType = response.headers.get("content-type");
+
+    if (!contentType.includes("text/html")) {
+      console.log(`Got ${contentType} file instead of text/html file`);
+
+      return;
+    }
+
+    console.log(await response.text());
+  } catch (err) {
+    console.log(
+      "Error occured : " + err.message + " at the page : " + currentUrl
+    );
+  }
+};
 
 //function fo normalising all the urls
 const NormaliseUrl = (url) => {
@@ -41,4 +69,5 @@ const getUrlFromHtml = (htmlbody, baseUrl) => {
 module.exports = {
   NormaliseUrl,
   getUrlFromHtml,
+  crawlPage,
 };
